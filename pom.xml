@@ -20,7 +20,11 @@
     </properties>
 
     <repositories>
-      <repository>
+        <repository>
+            <id>repo.camsys-apps.com</id>
+            <url>https://repo.camsys-apps.com/third-party/</url>
+        </repository>
+        <repository>
 		<id>releases.onebusaway.org</id>
 		<url>http://repo.camsys-apps.com/releases/</url>
 		<releases><enabled>true</enabled></releases>
