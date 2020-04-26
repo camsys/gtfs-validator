@@ -2,10 +2,7 @@ package com.conveyal.gtfs;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.net.URISyntaxException;
 
 import junit.framework.Assert;
 
@@ -34,8 +31,9 @@ public class GtfsValidationServiceTest {
 	static MissingRequiredFieldException mrf = null;
 	
 	@BeforeClass 
-    public static void setUpClass() {      
+    public static void setUpClass() throws URISyntaxException {
         System.out.println("GtfsStatisticsTest setup");
+        ClassLoader classLoader = GtfsValidationServiceTest.class.getClassLoader();
         
         gtfsStore1 = new GtfsDaoImpl();
         gtfsStore2 = new GtfsDaoImpl();
@@ -43,8 +41,8 @@ public class GtfsValidationServiceTest {
         GtfsReader gtfsReader1 = new GtfsReader();
         GtfsReader gtfsReader2 = new GtfsReader();
         
-        File gtfsFile1 = new File("src/test/resources/test_gtfs1.zip");
-        File gtfsFile2 = new File("src/test/resources/test_gtfs2.zip");
+		File gtfsFile1 = new File(classLoader.getResource("test_gtfs1.zip").toURI());
+		File gtfsFile2 = new File(classLoader.getResource("test_gtfs2.zip").toURI());
 
         
         try {
@@ -87,7 +85,7 @@ public class GtfsValidationServiceTest {
 	public void validateTrips() {
 		ValidationResult result = gtfsValidation2.validateTrips();
 
-		Assert.assertEquals(result.invalidValues.size(), 9);
+		Assert.assertEquals(result.invalidValues.size(), 11);
 		
 	}
 	
@@ -124,13 +122,13 @@ public class GtfsValidationServiceTest {
 	}
 	
 	@Test
-	public void completeBadGtfsTest() {
-		
+	public void completeBadGtfsTest() throws URISyntaxException {
+		ClassLoader classLoader = GtfsValidationServiceTest.class.getClassLoader();
 		GtfsDaoImpl gtfsStore = new GtfsDaoImpl();
       
         GtfsReader gtfsReader = new GtfsReader();
         
-        File gtfsFile = new File("src/test/resources/st_gtfs_bad.zip"); 
+        File gtfsFile = new File(classLoader.getResource("st_gtfs_bad.zip").toURI());
         
         try {
 			
